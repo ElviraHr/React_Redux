@@ -1,5 +1,9 @@
-
+import Lesson_16 from "lessons/Lesson_16/Lesson_16"
 function App() {
-  return <div className="App"> This is React Redux app</div>
+  return (
+    <>
+      <Lesson_16 />
+    </>
+  )
 }
-export default App;
+export default App
