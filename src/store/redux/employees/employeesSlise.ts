@@ -1,22 +1,23 @@
 import { PayloadAction } from "@reduxjs/toolkit"
 import { createAppSlice } from "store/createAppSlice"
 import type { EmployeesSliceState } from "./types"
+import type { EmployeeData } from "pages/Layout/types"
 
-const employeesInitialState: EmployeesSliceState = {employees:[]}
+const employeesInitialState: EmployeesSliceState = [];
 export const employeesSlice = createAppSlice({
   name: "EMPLOYEES",
   initialState: employeesInitialState,
   reducers: create => ({
     add: create.reducer(
       (
-        state: EmployeesSliceState,
-        action: PayloadAction<EmployeesSliceState>,
+        state,
+        action: PayloadAction<EmployeeData>,
       ) => {
-        state.employees = [...state.employees, action.payload]
+        state.push(action.payload);
       },
     ),
     delete: create.reducer(
-      (state: EmployeesSliceState[], action: PayloadAction<string>) => {
+      (state: EmployeesSliceState, action: PayloadAction<string>) => {
         state = state.filter(employee => employee.id !== action.payload)
       },
     ),
@@ -24,7 +25,7 @@ export const employeesSlice = createAppSlice({
   }),
   //selectors:
   selectors: {
-    employees: (state: EmployeesSliceState[]) => {
+    employees: (state: EmployeesSliceState) => {
       return state
     },
   },
