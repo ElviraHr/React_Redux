@@ -3,24 +3,17 @@ import { createAppSlice } from "store/createAppSlice"
 import type { EmployeesSliceState } from "./types"
 import type { EmployeeData } from "pages/Layout/types"
 
-const employeesInitialState: EmployeesSliceState = [];
+const employeesInitialState: EmployeesSliceState = []
 export const employeesSlice = createAppSlice({
   name: "EMPLOYEES",
   initialState: employeesInitialState,
   reducers: create => ({
-    add: create.reducer(
-      (
-        state,
-        action: PayloadAction<EmployeeData>,
-      ) => {
-        state.push(action.payload);
-      },
-    ),
-    delete: create.reducer(
-      (state: EmployeesSliceState, action: PayloadAction<string>) => {
-        state = state.filter(employee => employee.id !== action.payload)
-      },
-    ),
+    add: create.reducer((state, action: PayloadAction<EmployeeData>) => {
+      state.push(action.payload)
+    }),
+    delete: create.reducer((state, action: PayloadAction<string>) => {
+      return state.filter(employee => employee.id !== action.payload)
+    }),
     deleteAll: create.reducer(() => employeesInitialState),
   }),
   //selectors:
@@ -31,5 +24,5 @@ export const employeesSlice = createAppSlice({
   },
 })
 
-export const employeesSliceActions = employeesSlice.actions;
-export const employeesSliceSelectors = employeesSlice.selectors;
+export const employeesSliceActions = employeesSlice.actions
+export const employeesSliceSelectors = employeesSlice.selectors
