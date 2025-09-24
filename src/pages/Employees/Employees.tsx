@@ -15,6 +15,7 @@ import {
   CardInfoContent,
   ButtonControl,
 } from "./styles"
+import { EmployeeData } from "pages/Layout/types"
 
 function Employees() {
   const dispatch = useAppDispatch()
@@ -27,7 +28,7 @@ function Employees() {
     dispatch(employeesSliceActions.deleteAll())
   }
 
-  const employeeList = employeeData.map(employee => {
+  const employeeList = employeeData.map((employee: EmployeeData) => {
     return (
       <CardWrapper key={employee.id}>
         <CardInfo>
