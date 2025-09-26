@@ -1,7 +1,10 @@
 import { useAppDispatch, useAppSelector } from "store/hooks"
-import { employeesSliceActions, employeesSliceSelectors } from "store/redux/employees/employeesSlise";
+import {
+  employeesSliceActions,
+  employeesSliceSelectors,
+} from "store/redux/employees/employeesSlise"
 
-import Button from "components/Button/Button";
+import Button from "components/Button/Button"
 
 import {
   PageWrapper,
@@ -11,8 +14,8 @@ import {
   CardInfoTitle,
   CardInfoContent,
   ButtonControl,
-} from "./styles";
-import { LayoutContext } from "../Layout/Layout";
+} from "./styles"
+import { EmployeeData } from "pages/Layout/types"
 
 function Employees() {
   const dispatch = useAppDispatch()
@@ -20,11 +23,12 @@ function Employees() {
   const employeeData = useAppSelector(employeesSliceSelectors.employees)
   const onDelete = (id: string) => {
     dispatch(employeesSliceActions.delete(id))
-  
   }
-  const onDeleteAll = () => {  dispatch(employeesSliceActions.deleteAll())}
+  const onDeleteAll = () => {
+    dispatch(employeesSliceActions.deleteAll())
+  }
 
-  const employeeList = employeeData.map((employee) => {
+  const employeeList = employeeData.map((employee: EmployeeData) => {
     return (
       <CardWrapper key={employee.id}>
         <CardInfo>
@@ -39,33 +43,27 @@ function Employees() {
           <CardInfoTitle>Age</CardInfoTitle>
           <CardInfoContent>{employee?.age}</CardInfoContent>
         </CardInfo>
-        {!!employee?.job && <CardInfo>
-          <CardInfoTitle>Job Position</CardInfoTitle>
-          <CardInfoContent>{employee?.job}</CardInfoContent>
-        </CardInfo>}
-        <Button
-          name="Delete"
-          isRed
-          onClick={() => onDelete(employee.id)}
-        />
+        {!!employee?.job && (
+          <CardInfo>
+            <CardInfoTitle>Job Position</CardInfoTitle>
+            <CardInfoContent>{employee?.job}</CardInfoContent>
+          </CardInfo>
+        )}
+        <Button name="Delete" isRed onClick={() => onDelete(employee.id)} />
       </CardWrapper>
-    );
-  });
+    )
+  })
 
   return (
     <PageWrapper>
       <Cards>{employeeList}</Cards>
       {!!employeeData.length && (
         <ButtonControl>
-          <Button
-            name="Remove All Employees"
-            isRed
-            onClick={onDeleteAll}
-          />
+          <Button name="Remove All Employees" isRed onClick={onDeleteAll} />
         </ButtonControl>
       )}
     </PageWrapper>
-  );
+  )
 }
 
-export default Employees;
+export default Employees

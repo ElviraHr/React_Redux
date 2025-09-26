@@ -1,23 +1,21 @@
-import { useAppDispatch, useAppSelector } from "store/hooks"
-import { employeesSliceActions, employeesSliceSelectors } from "store/redux/employees/employeesSlise";
+import { useAppDispatch } from "store/hooks"
+import { employeesSliceActions } from "store/redux/employees/employeesSlise"
 
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { v4 } from "uuid";
+import { useFormik } from "formik"
+import * as Yup from "yup"
+import { v4 } from "uuid"
 
-import Button from "components/Button/Button";
-import Input from "components/Input/Input";
+import Button from "components/Button/Button"
+import Input from "components/Input/Input"
 
-import { FormContainer, InputsContainer } from "./styles.ts";
-import { CREATE_EMPLOYEE_FORM_VALUES } from "./types.ts";
-import type { EmployeeData } from "../Layout/types.ts";
-import { EmployeesSliceState } from "store/redux/employees/types.ts";
-
+import { FormContainer, InputsContainer } from "./styles.ts"
+import { CREATE_EMPLOYEE_FORM_VALUES } from "./types.ts"
+import type { EmployeeData } from "../Layout/types.ts"
 
 function CreateEmployee() {
   const dispatch = useAppDispatch()
 
-    const onAdd = (emp: EmployeesSliceState) => {
+  const onAdd = (emp: EmployeeData) => {
     dispatch(employeesSliceActions.add(emp))
   }
 
@@ -35,11 +33,12 @@ function CreateEmployee() {
       .trim()
       .required("Age field is required")
       .min(1, "Age field should contain minimum 1 characters")
-      .max(3, "Age field should contain maximum 3 characters"),
+      .max(3, "Age field should contain maximum 3 characters")
+      .matches(/^\d+$/, "Age field must contain only numbers"),
     [CREATE_EMPLOYEE_FORM_VALUES.JOB]: Yup.string()
       .trim()
       .max(30, "Job field should contain maximum 30 characters"),
-  });
+  })
 
   const formik = useFormik({
     initialValues: {
@@ -58,20 +57,17 @@ function CreateEmployee() {
         surname: values[CREATE_EMPLOYEE_FORM_VALUES.SURNAME],
         age: values[CREATE_EMPLOYEE_FORM_VALUES.AGE],
         job: values[CREATE_EMPLOYEE_FORM_VALUES.JOB],
-      };
-
+      }
       onAdd(employee)
-      // setEmployeeData((prevValue) => {
-      //   return [...prevValue, employee];
-      // });
-      helpers.resetForm();
+
+      helpers.resetForm()
       alert(
-        `User ${values[CREATE_EMPLOYEE_FORM_VALUES.NAME].trim()} ${
-          values[CREATE_EMPLOYEE_FORM_VALUES.SURNAME].trim()
-        } successfully created`
-      );
+        `User ${values[CREATE_EMPLOYEE_FORM_VALUES.NAME].trim()} ${values[
+          CREATE_EMPLOYEE_FORM_VALUES.SURNAME
+        ].trim()} successfully created`,
+      )
     },
-  });
+  })
 
   return (
     <FormContainer onSubmit={formik.handleSubmit}>
@@ -115,7 +111,7 @@ function CreateEmployee() {
       </InputsContainer>
       <Button name="Create" type="submit" />
     </FormContainer>
-  );
+  )
 }
 
-export default CreateEmployee;
+export default CreateEmployee
